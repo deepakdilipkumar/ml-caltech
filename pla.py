@@ -19,9 +19,10 @@ def mismatch(list1,list2):
 	return incorrect
 
 
-N=10
+N=100
 runs=1000
-avgIterations=0
+avgIterations=0.0
+avgAccuracy=0.0
 
 for i in range(runs):
 	p1 = np.array([point(),point()])
@@ -32,14 +33,14 @@ for i in range(runs):
 	y2=p2[1]	
 	slope= (y2-y1)/(x2-x1)
 	intercept= (y1*x2-y2*x1)/(x2-x1)
-	line=np.array([-intercept,-slope,1])
+	line=np.array([-intercept,-slope,1])   # We want the sign of y-mx-c
 	points=[]
 	correctLabels=[]
 	plaLabels=[]
 	weights=np.array([0,0,0])
 	for j in range(N):
 		newpoint=np.array(([1,point(),point()]))
-		correctLabels.append( perceptron(line,newpoint)) #np.sign(newpoint[2]-slope*newpoint[1]-intercept))
+		correctLabels.append( perceptron(line,newpoint)) #np.sign(newpoint[2]-slope*newpoint[1]-intercept)
 		plaLabels.append(perceptron(weights,newpoint))
 		points.append(newpoint)
 
@@ -53,13 +54,23 @@ for i in range(runs):
 		numIterations+=1
 
 	avgIterations+=numIterations
+	accuracy=0.0
+	for j in range(1000):
+		testPoint=np.array(([1,point(),point()]))
+		if(perceptron(weights,testPoint)==perceptron(line,testPoint)):
+			accuracy+=1
+
+	accuracy/=1000
+	avgAccuracy+=accuracy
+	print(i)
 
 
 avgIterations/=1000
-print(correctLabels)
-print(plaLabels)
+avgAccuracy/=1000
+#print(correctLabels)
+#print(plaLabels)
 print(avgIterations)
-
+print(1-avgAccuracy)
 
 
 
