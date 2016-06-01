@@ -14,12 +14,17 @@ avgein=0.0
 for i in range(runs):
 
 	points=[]
+	transformedpoints=[]
 	correctLabels=[]
 	lrLabels=[]
 	for j in range(N):
 		newpoint=np.array(([1,point(),point()]))
-		correctLabels.append( np.sign(pow(newpoint[1],2)+pow(newpoint[2],2)-0.6)) #np.sign(newpoint[2]-slope*newpoint[1]-intercept)
+		x=newpoint[1]
+		y=newpoint[2]
+		transformedpoint=[1,x,y,x*y,x*x,y*y]
+		correctLabels.append( np.sign(pow(x,2)+pow(y,2)-0.6)) #np.sign(newpoint[2]-slope*newpoint[1]-intercept)
 		points.append(newpoint)
+		transformedpoints.append(transformedpoint)
 
 	# Noise
 
@@ -28,12 +33,12 @@ for i in range(runs):
 	for j in noisy:
 		correctLabels[j]*=-1
 
-	input = np.array(points)
+	input = np.array(transformedpoints)
 	output = np.array(correctLabels)
 	weights = np.dot(np.dot(np.linalg.inv(np.dot(input.T,input)),input.T),output)
 	ein=0.0
 	for j in range(N):
-		if label(weights,points[j])!=correctLabels[j]:
+		if label(weights,transformedpoints[j])!=correctLabels[j]:
 			ein+=1
 
 	ein/=N
@@ -43,3 +48,4 @@ for i in range(runs):
 
 avgein/=runs
 print(avgein)
+print(weights)
