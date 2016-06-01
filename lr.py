@@ -4,8 +4,13 @@ import random
 def point():
 	return (random.uniform(-1,1))
 
+def label(weights,input):
+	return np.sign(weights.dot(input))
+
 N=100
 runs=1000
+avgein=0.0
+avgeout=0.0
 
 for i in range(runs):
 	p1 = np.array([point(),point()])
@@ -20,11 +25,33 @@ for i in range(runs):
 	points=[]
 	correctLabels=[]
 	lrLabels=[]
-	weights=np.array([0,0,0])
 	for j in range(N):
 		newpoint=np.array(([1,point(),point()]))
-		correctLabels.append( perceptron(line,newpoint)) #np.sign(newpoint[2]-slope*newpoint[1]-intercept)
+		correctLabels.append( label(line,newpoint)) #np.sign(newpoint[2]-slope*newpoint[1]-intercept)
 		points.append(newpoint)
 
+	input = np.array(points)
+	output = np.array(correctLabels)
+	weights = np.dot(np.dot(np.linalg.inv(np.dot(input.T,input)),input.T),output)
+	ein=0.0
+	for j in range(N):
+		if label(weights,points[j])!=correctLabels[j]:
+			ein+=1
 
+	ein/=N
+	avgein+=ein
 
+	eout=0.0
+	for j in range(1000):
+		randpoint=np.array(([1,point(),point()]))
+		if label(weights,randpoint)!=label(line,randpoint):
+			eout+=1
+
+	eout/=1000
+	avgeout+=eout
+	print(i)
+
+avgeout/=runs
+avgein/=runs
+print(avgein)
+print(avgeout)
