@@ -10,6 +10,7 @@ def label(weights,input):
 N=100
 runs=1000
 avgein=0.0
+avgeout=0.0
 
 for i in range(runs):
 
@@ -44,8 +45,33 @@ for i in range(runs):
 	ein/=N
 	avgein+=ein
 
+	eout=0.0
+	testpoints=[]
+	transformedtestpoints=[]
+	testLabels=[]
+	for j in range(1000):
+		testpoint=np.array(([1,point(),point()]))
+		x=testpoint[1]
+		y=testpoint[2]
+		transformedtestpoint=[1,x,y,x*y,x*x,y*y]
+		testLabels.append( np.sign(pow(x,2)+pow(y,2)-0.6))
+		transformedtestpoints.append(transformedtestpoint)
+
+	noisy = random.sample(range(1000),100)
+
+	for j in noisy:
+		testLabels[j]*=-1
+
+	for j in range(1000):
+		if label(weights,transformedtestpoints[j])!=testLabels[j]:
+			eout+=1
+
+	eout/=1000
+	avgeout+=eout
 	print(i)
 
+avgeout/=runs
 avgein/=runs
 print(avgein)
+print(avgeout)
 print(weights)
