@@ -29,7 +29,8 @@ for i in range(runs):
 
 	# Noise
 
-	noisy = random.sample(range(N),N/10)
+	noisefrac=100 # 1 in every n is noisy
+	noisy = random.sample(range(N),N/noisefrac)
 
 	for j in noisy:
 		correctLabels[j]*=-1
@@ -57,7 +58,7 @@ for i in range(runs):
 		testLabels.append( np.sign(pow(x,2)+pow(y,2)-0.6))
 		transformedtestpoints.append(transformedtestpoint)
 
-	noisy = random.sample(range(1000),100)
+	noisy = random.sample(range(1000),1000/noisefrac)
 
 	for j in noisy:
 		testLabels[j]*=-1
