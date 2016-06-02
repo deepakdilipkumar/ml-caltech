@@ -23,7 +23,7 @@ for i in range(runs):
 		x=newpoint[1]
 		y=newpoint[2]
 		transformedpoint=[1,x,y,x*y,x*x,y*y]
-		correctLabels.append( np.sign(pow(x,2)+pow(y,2)-0.6)) #np.sign(newpoint[2]-slope*newpoint[1]-intercept)
+		correctLabels.append( np.sign(pow(x,2)+pow(y,2)-0.6)) 
 		points.append(newpoint)
 		transformedpoints.append(transformedpoint)
 

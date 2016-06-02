@@ -40,7 +40,7 @@ for i in range(runs):
 	weights=np.array([0,0,0])
 	for j in range(N):
 		newpoint=np.array(([1,point(),point()]))
-		correctLabels.append( perceptron(line,newpoint)) #np.sign(newpoint[2]-slope*newpoint[1]-intercept)
+		correctLabels.append( perceptron(line,newpoint)) 
 		plaLabels.append(perceptron(weights,newpoint))
 		points.append(newpoint)
 
@@ -67,8 +67,6 @@ for i in range(runs):
 
 avgIterations/=1000
 avgAccuracy/=1000
-#print(correctLabels)
-#print(plaLabels)
 print(avgIterations)
 print(1-avgAccuracy)
 

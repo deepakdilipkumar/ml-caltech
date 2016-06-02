@@ -27,7 +27,7 @@ for i in range(runs):
 	lrLabels=[]
 	for j in range(N):
 		newpoint=np.array(([1,point(),point()]))
-		correctLabels.append( label(line,newpoint)) #np.sign(newpoint[2]-slope*newpoint[1]-intercept)
+		correctLabels.append( label(line,newpoint)) 
 		points.append(newpoint)
 
 	input = np.array(points)
