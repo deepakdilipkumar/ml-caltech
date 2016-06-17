@@ -1,5 +1,6 @@
 import math
-import matplotlib
+import matplotlib.pyplot as plt 
+import numpy as np
 
 def growth(N,d):
 	return pow(N,d)
@@ -31,10 +32,28 @@ def devroye(N,delta,d):
 	return eps
 
 
-N=5
+N=10000
 delta=0.05
 d=50
-print(vc(N,delta,d))
-print(rademacher(N,delta,d))
-print(parrondo(N,delta,d))
-print(devroye(N,delta,d))
+
+epsvc=[]
+epsrademacher=[]
+epsparrondo=[]
+epsdevroye=[]
+
+for i in range(N):
+	epsvc.append(vc((i+1)*10,delta,d))
+	epsrademacher.append(rademacher((i+1)*10,delta,d))
+	epsparrondo.append(parrondo((i+1)*10,delta,d))
+	epsdevroye.append(devroye((i+1)*10,delta,d))
+
+x=(np.array(range(N))+1)*10
+plt.plot(x,epsvc)
+plt.plot(x,epsrademacher)
+plt.plot(x,epsparrondo)
+plt.plot(x,epsdevroye)
+
+print(epsvc[N-1])
+print(epsrademacher[N-1])
+print(epsparrondo[N-1])
+print(epsdevroye[N-1])
