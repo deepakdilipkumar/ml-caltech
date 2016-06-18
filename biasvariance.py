@@ -25,10 +25,26 @@ print(abar)
 
 numbias = 100000
 errbias =0
+ex = 0
 
 for i in range(numbias):
 	x = point()
 	errbias+= pow(abar*x-f(x),2)
+	ex+=pow(x,2)
 
-errbias/=numbias
-print(errbias)
+bias=errbias/numbias
+ex/=numbias
+print(bias)
+
+numvar=100000
+errvar=0
+
+for i in range(numvar):
+	x1 = point()
+	x2 = point()
+	a = g(x1,x2)
+	errvar+=pow(a-abar,2)	
+
+var=errvar*ex/numvar
+
+print(var)
