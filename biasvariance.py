@@ -9,7 +9,7 @@ def f(x):
 	return math.sin(math.pi*x)
 
 def g(x1,x2):
-	return (x1*f(x1)+x2*f(x2))/(pow(x1,2)+pow(x2,2))
+	return ((x1*f(x1)+x2*f(x2))/(pow(x1,2)+pow(x2,2)))
 
 
 numdata=100000
@@ -20,4 +20,15 @@ for i in range(numdata):
 	x2 = point()
 	a.append(g(x1,x2))
 
-print(sum(a)/numdata)
+abar = sum(a)/len(a) 
+print(abar)
+
+numbias = 100000
+errbias =0
+
+for i in range(numbias):
+	x = point()
+	errbias+= pow(abar*x-f(x),2)
+
+errbias/=numbias
+print(errbias)
