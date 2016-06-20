@@ -10,10 +10,15 @@ def f(x):
 
 def a(x1,x2):													
 	#return ((x1*f(x1)+x2*f(x2))/(pow(x1,2)+pow(x2,2)))			# Parameter minimizing mean squared error for given dataset of 2 points for g=ax
-	return 0
+	#return 0													# g=b
+	#return ((f(x2)-f(x1))/(x2-x1))								# g=ax+b
+
 
 def b(x1,x2):
-	return (f(x1)+f(x2))/2										# b in g=b
+	#return 0 													# g=ax
+	#return (f(x1)+f(x2))/2										# g=b
+	#return ((f(x1)*x2-f(x2)*x1)/(x2-x1))						# g=ax+b
+
 
 numdata=100000
 abar=0
@@ -42,7 +47,7 @@ bias=0
 
 for i in range(numx):
 	x = point()
-	errbias+= pow(abar*x-f(x),2)
+	errbias+= pow(abar*x+bbar-f(x),2)
 	for j in range(numd):
 		x1=point()
 		x2=point()
