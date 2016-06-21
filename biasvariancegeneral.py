@@ -46,10 +46,13 @@ errvar=0
 numd=1000
 var=0
 bias=0
+check=[]
+c=[]
 
 for i in range(numx):
 	x = point()
 	errbias+= pow(abar*pow(x,2)+bbar-f(x),2)
+	errvar = 0 
 #	errbias+= pow(abar*x+bbar-f(x),2)
 	for j in range(numd):
 		x1=point()
@@ -59,8 +62,9 @@ for i in range(numx):
 
 	#print(i)
 	errvar/=numd
+	check.append(errvar)
+	c.append(x)
 	var+=errvar
-
 
 bias=errbias/numx
 print(bias)
@@ -69,3 +73,5 @@ var/=numx
 print(var)
 eout=bias+var
 print(eout)
+
+print(c[check.index(max(check))])
