@@ -4,9 +4,14 @@ import random
 def point():
 	return (random.uniform(-1,1))
 
+def einGrad(x,y,weight):
+
+def gradientDescent(weight,learning):
 
 N=100
 runs=1000
+learning=0.01
+tolerance=0.01
 
 for i in range(runs):
 	p1 = np.array([point(),point()])
@@ -24,3 +29,4 @@ for i in range(runs):
 		newpoint=np.array(([1,point(),point()]))
 		correctLabels.append( perceptron(line,newpoint)) 
 		points.append(newpoint)
+	weight=np.array([0,0,0])
