@@ -6,7 +6,7 @@ def point():
 	return (random.uniform(-1,1))
 
 def einGrad(x,y,weights):
-	return (y*x/(1+math.exp(y*weights.dot(x))))
+	return (-y*x/(1+math.exp(y*weights.dot(x))))
 
 def error(x,y,weights):
 	return (math.log(1+math.exp(-y*weights.dot(x))))
@@ -16,8 +16,8 @@ tests=1000
 learning=0.01
 tolerance=0.01
 numcheck=1000
-avgeout=0
-avgruns=0
+avgeout=0.0
+avgruns=0.0
 
 for i in range(tests):
 	p1 = np.array([point(),point()])
@@ -38,20 +38,23 @@ for i in range(tests):
 	weights=np.array([0,0,0])
 	oldweights=np.array([1,1,1])
 	diff = weights-oldweights
-	runs=0
+	runs=0.0
 	while(diff.dot(diff)>tolerance):
-		eingradient=0
+		#eingradient=0.0
 		oldweights=weights
-		for j in range(N):
-			eingradient+=einGrad(points[j],correctLabels[j],weights)
-
-		eingradient/=N
-		weights-=learning*eingradient
+		order=range(N)
+		random.shuffle(order)
+		for j in order:
+			eingradient=einGrad(points[j],correctLabels[j],weights)
+			weights=weights-learning*eingradient
+		#eingradient/=N
 		runs+=1.0
 		diff=weights-oldweights
+		#print(diff)
 
+	#print(runs)
 	avgruns+=runs
-	eout=0
+	eout=0.0
 	for j in range(numcheck):
 		newpoint=np.array([1,point(),point()])
 		label=np.sign(line.dot(newpoint)) 
@@ -65,6 +68,8 @@ avgeout/=tests
 avgruns/=tests
 print(avgruns)
 print(avgeout)
+print(line)
+print(weights)
 
 
 
