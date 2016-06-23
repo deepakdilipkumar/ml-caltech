@@ -12,13 +12,14 @@ def error(x,y,weights):
 	return (math.log(1+math.exp(-y*weights.dot(x))))
 
 N=100
-runs=1000
+tests=1000
 learning=0.01
 tolerance=0.01
 numcheck=1000
-avg
+avgeout=0
+avgruns=0
 
-for i in range(runs):
+for i in range(tests):
 	p1 = np.array([point(),point()])
 	p2 = np.array([point(),point()])
 	x1=p1[0]
@@ -34,15 +35,37 @@ for i in range(runs):
 		newpoint=np.array(([1,point(),point()]))
 		correctLabels.append( np.sign(line.dot(newpoint))) 
 		points.append(newpoint)
-	weight=np.array([0,0,0])
-	oldweight=np.array([1,1,1])
-	diff = weight-oldweight
+	weights=np.array([0,0,0])
+	oldweights=np.array([1,1,1])
+	diff = weights-oldweights
+	runs=0
 	while(diff.dot(diff)>tolerance):
 		eingradient=0
+		oldweights=weights
 		for j in range(N):
-			eingradient+=einGrad(newpoint(j),correctLabels(j),weights)
+			eingradient+=einGrad(newpoint[j],correctLabels[0],weights)
 
 		eingradient/=N
 		weights-=learning*eingradient
+		runs+=1
+		diff=weights-oldweights
+
+	avgruns+=runs
+	eout=0
+	for j in range(numcheck):
+		newpoint=np.array([1,point(),point()])
+		label=np.sign(line.dot(newpoint)) 
+		eout+=error(newpoint,label,weights)
+
+	eout/=numcheck
+	avgeout+=eout
+	print(i)
+
+avgeout/=tests
+avgruns/=tests
+print(avgruns)
+print(avgeout)
+
+
 
 
