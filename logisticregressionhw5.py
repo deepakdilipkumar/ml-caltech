@@ -43,11 +43,11 @@ for i in range(tests):
 		eingradient=0
 		oldweights=weights
 		for j in range(N):
-			eingradient+=einGrad(newpoint[j],correctLabels[0],weights)
+			eingradient+=einGrad(points[j],correctLabels[j],weights)
 
 		eingradient/=N
 		weights-=learning*eingradient
-		runs+=1
+		runs+=1.0
 		diff=weights-oldweights
 
 	avgruns+=runs
