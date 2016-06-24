@@ -12,7 +12,7 @@ def error(x,y,weights):
 	return (math.log(1+math.exp(-y*weights.dot(x))))
 
 N=100
-tests=1000
+tests=100
 learning=0.01
 tolerance=0.01
 numcheck=1000
@@ -35,11 +35,12 @@ for i in range(tests):
 		newpoint=np.array(([1,point(),point()]))
 		correctLabels.append( np.sign(line.dot(newpoint))) 
 		points.append(newpoint)
+
 	weights=np.array([0,0,0])
 	oldweights=np.array([1,1,1])
 	diff = weights-oldweights
 	runs=0.0
-	while(diff.dot(diff)>tolerance):
+	while(math.sqrt(diff.dot(diff))>tolerance):
 		#eingradient=0.0
 		oldweights=weights
 		order=range(N)
@@ -52,7 +53,7 @@ for i in range(tests):
 		diff=weights-oldweights
 		#print(diff)
 
-	#print(runs)
+	#print(diff)
 	avgruns+=runs
 	eout=0.0
 	for j in range(numcheck):
@@ -70,7 +71,3 @@ print(avgruns)
 print(avgeout)
 print(line)
 print(weights)
-
-
-
-
