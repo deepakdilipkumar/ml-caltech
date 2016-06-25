@@ -41,19 +41,15 @@ for i in range(tests):
 	diff = weights-oldweights
 	runs=0.0
 	while(math.sqrt(diff.dot(diff))>tolerance):
-		#eingradient=0.0
 		oldweights=weights
 		order=range(N)
 		random.shuffle(order)
 		for j in order:
 			eingradient=einGrad(points[j],correctLabels[j],weights)
 			weights=weights-learning*eingradient
-		#eingradient/=N
 		runs+=1.0
 		diff=weights-oldweights
-		#print(diff)
 
-	#print(diff)
 	avgruns+=runs
 	eout=0.0
 	for j in range(numcheck):
