@@ -21,7 +21,10 @@ for i in range(numtrain):
 
 transformedtraindata=transformedtraindata[1:,:]
 
-weights = np.dot(np.dot(np.linalg.inv(np.dot(transformedtraindata.T,transformedtraindata)),transformedtraindata.T),inputlabels)
+k=-1
+regparameter=pow(10,k)
+
+weights = np.dot(np.dot(np.linalg.inv(np.dot(transformedtraindata.T,transformedtraindata)+regparameter*np.eye(8)),transformedtraindata.T),inputlabels)
 	
 ein=0.0
 
