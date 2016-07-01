@@ -15,64 +15,49 @@ numtrain=0
 numtest=0
 
 for row in train_file: 							
-    traindata.append(row[0:]) 								
-traindata = np.array(data) 	
+    traindata.append(row) 	
+    numtrain+=1							
+traindata = np.array(traindata) 	
 
 for row in test_file: 							
-    testdata.append(row[0:]) 								
-testdata = np.array(data) 									
+    testdata.append(row[0:]) 	
+    numtest+=1							
+testdata = np.array(testdata) 									
 
+inputlabels=traindata[,2]
 
-for i in range(runs):
+for i in range(numtrain):
+	x1=traindata[i,0]
+	x2=traindata[i,1]
 
+	transform=np.array([1,x1,x2,pow(x1,2),pow(x2,2),x1*x2,abs(x1-x2),abs(x1+x2)])
+	transformedtraindata.append(transform)
+
+weights = np.dot(np.dot(np.linalg.inv(np.dot(transformedtraindata.T,transformedtraindata)),transformedtraindata.T),inputlabels)
 	
-	for j in range(N):
-		newpoint=np.array(([1,point(),point()]))
-		x=newpoint[1]
-		y=newpoint[2]
-		transformedpoint=[1,x,y,x*y,x*x,y*y]
-		correctLabels.append( np.sign(pow(x,2)+pow(y,2)-0.6)) 
-		points.append(newpoint)
-		transformedpoints.append(transformedpoint)
+ein=0
 
-	input = np.array(transformedpoints)
-	output = np.array(correctLabels)
-	weights = np.dot(np.dot(np.linalg.inv(np.dot(input.T,input)),input.T),output)
-	ein=0.0
-	for j in range(N):
-		if label(weights,transformedpoints[j])!=correctLabels[j]:
-			ein+=1
+for i in range(numtrain):
+	if label(weights,transformedtraindata[i,0:2])!=inputlabels[i]:
+		ein+=1
 
-	ein/=N
-	avgein+=ein
+ein/=numtrain
+print(ein)
 
-	eout=0.0
-	testpoints=[]
-	transformedtestpoints=[]
-	testLabels=[]
-	for j in range(1000):
-		testpoint=np.array(([1,point(),point()]))
-		x=testpoint[1]
-		y=testpoint[2]
-		transformedtestpoint=[1,x,y,x*y,x*x,y*y]
-		testLabels.append( np.sign(pow(x,2)+pow(y,2)-0.6))
-		transformedtestpoints.append(transformedtestpoint)
+outputlabels=testdata[,2]
+for i in range(numtest):
+	x1=testdata[i,0]
+	x2=testdata[i,1]
 
-	noisy = random.sample(range(1000),1000/noisefrac)
+	transform=np.array([1,x1,x2,pow(x1,2),pow(x2,2),x1*x2,abs(x1-x2),abs(x1+x2)])
+	transformedtestdata.append(transform)
 
-	for j in noisy:
-		testLabels[j]*=-1
+eout =0
+for i in range(numtest):
+	if label(weights,transformedtestdata[i,0:2])!=outputlabels[i]:
+		eout+=1
 
-	for j in range(1000):
-		if label(weights,transformedtestpoints[j])!=testLabels[j]:
-			eout+=1
+eout/=numtest
+print(eout)
 
-	eout/=1000
-	avgeout+=eout
-	print(i)
-
-avgeout/=runs
-avgein/=runs
-print(avgein)
-print(avgeout)
 print(weights)
