@@ -8,8 +8,8 @@ def label(weights,input):
 traindata=np.genfromtxt("hw6in.csv")
 testdata=np.genfromtxt("hw6out.csv")			
 
-numtrain=35
-numtest=250				
+numtrain=np.shape(traindata)[0]
+numtest=np.shape(testdata)[0]			
 
 inputlabels=traindata[:,2]
 transformedtraindata=np.array([0,0,0,0,0,0,0,0])
