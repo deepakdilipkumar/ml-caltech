@@ -1,6 +1,6 @@
 import numpy as np 
 import csv
-
+import matplotlib.pyplot as plt
 
 def label(weights,input):
 	return np.sign(weights.dot(input))
@@ -35,8 +35,8 @@ einlist=[]
 eoutlist=[]
 klist=[]
 
-for i in range(100):
-	k=(i-50)/10
+for i in range(1000):
+	k=(i-500.0)/10.0
 	klist.append(k)
 	regparameter=pow(10,k)
 
@@ -60,6 +60,5 @@ for i in range(100):
 	eoutlist.append(eout)
 #print(eout)
 
-
-#print(einlist)
-#print(eoutlist)
+plt.plot(klist,einlist,'r--',klist,eoutlist,'bs')
+plt.show()
