@@ -33,31 +33,36 @@ transformedtestdata=transformedtestdata[1:,:]
 einlist=[]
 eoutlist=[]
 klist=[]
+trainindex=25
 
-for i in range(1000):
-	k=(i-500.0)/10.0
-	klist.append(k)
-	regparameter=pow(10,k)
 
-	weights = np.dot(np.dot(np.linalg.inv(np.dot(transformedtraindata.T,transformedtraindata)+regparameter*np.eye(8)),transformedtraindata.T),inputlabels)
+for i in [3,4,5,6,7]:
+	validation = transformedtraindata[0:trainindex,0:i]
+	train = transformedtraindata[trainindex:,0:i]
+	validationlabels=inputlabels[0:trainindex]
+	trainlabels=inputlabels[trainindex:]
+	weights = np.dot(np.dot(np.linalg.inv(np.dot(train.T,train)),train.T),trainlabels)
 		
 	ein=0.0
-	for i in range(numtrain):
-		if label(weights,transformedtraindata[i,:])!=inputlabels[i]:
+	for j in range(len(validationlabels)):
+		if label(weights,validation[j,:])!=validationlabels[j]:
 			ein+=1
 
-	ein/=numtrain
+	ein/=len(validationlabels)
 	einlist.append(ein)
 	#print(ein)
 
 	eout =0.0
-	for i in range(numtest):
-		if label(weights,transformedtestdata[i,:])!=outputlabels[i]:
+	for j in range(numtest):
+		if label(weights,transformedtestdata[j,0:i])!=outputlabels[j]:
 			eout+=1
 
 	eout/=numtest
 	eoutlist.append(eout)
 #print(eout)
 
-plt.plot(klist,einlist,'r--',klist,eoutlist,'bs')
-plt.show()
+#plt.plot(klist,einlist,'r--',klist,eoutlist,'bs')
+#plt.show()
+
+print(einlist)
+print(eoutlist)
