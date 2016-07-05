@@ -44,7 +44,7 @@ for i in range(1000):
 		
 	ein=0.0
 	for j in range(numtrain):
-		if label(weights,transformedtraindata[i,:])!=inputlabels[i]:
+		if label(weights,transformedtraindata[j,:])!=inputlabels[j]:
 			ein+=1
 
 	ein/=numtrain
@@ -53,7 +53,7 @@ for i in range(1000):
 
 	eout =0.0
 	for j in range(numtest):
-		if label(weights,transformedtestdata[i,:])!=outputlabels[i]:
+		if label(weights,transformedtestdata[j,:])!=outputlabels[j]:
 			eout+=1
 
 	eout/=numtest
