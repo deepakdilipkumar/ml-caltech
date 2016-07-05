@@ -43,7 +43,7 @@ for i in range(1000):
 	weights = np.dot(np.dot(np.linalg.inv(np.dot(transformedtraindata.T,transformedtraindata)+regparameter*np.eye(8)),transformedtraindata.T),inputlabels)
 		
 	ein=0.0
-	for i in range(numtrain):
+	for j in range(numtrain):
 		if label(weights,transformedtraindata[i,:])!=inputlabels[i]:
 			ein+=1
 
@@ -52,7 +52,7 @@ for i in range(1000):
 	#print(ein)
 
 	eout =0.0
-	for i in range(numtest):
+	for j in range(numtest):
 		if label(weights,transformedtestdata[i,:])!=outputlabels[i]:
 			eout+=1
 
