@@ -32,15 +32,13 @@ transformedtestdata=transformedtestdata[1:,:]
 
 einlist=[]
 eoutlist=[]
-klist=[]
 trainindex=25
 
-
 for i in [3,4,5,6,7]:
-	validation = transformedtraindata[0:trainindex,0:i]
-	train = transformedtraindata[trainindex:,0:i]
-	validationlabels=inputlabels[0:trainindex]
-	trainlabels=inputlabels[trainindex:]
+	train = transformedtraindata[0:trainindex,0:i+1]
+	validation = transformedtraindata[trainindex:,0:i+1]
+	trainlabels=inputlabels[0:trainindex]
+	validationlabels=inputlabels[trainindex:]
 	weights = np.dot(np.dot(np.linalg.inv(np.dot(train.T,train)),train.T),trainlabels)
 		
 	ein=0.0
@@ -54,7 +52,7 @@ for i in [3,4,5,6,7]:
 
 	eout =0.0
 	for j in range(numtest):
-		if label(weights,transformedtestdata[j,0:i])!=outputlabels[j]:
+		if label(weights,transformedtestdata[j,0:i+1])!=outputlabels[j]:
 			eout+=1
 
 	eout/=numtest
