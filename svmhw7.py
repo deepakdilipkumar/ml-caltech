@@ -1,5 +1,6 @@
 import numpy as np 
 import random
+from sklearn import svm
 
 def perceptron(weights,input):
 	return np.sign(weights.dot(input))
@@ -21,8 +22,8 @@ def mismatch(list1,list2):
 
 N=10
 runs=1000
-avgIterations=0.0
-avgAccuracy=0.0
+avgplaAccuracy=0.0
+avgsvmAccurary=0.0
 
 for i in range(runs):
 	p1 = np.array([point(),point()])
@@ -44,6 +45,8 @@ for i in range(runs):
 		plaLabels.append(perceptron(plaweights,np.hstack((1,newpoint))))
 		points.append(newpoint)
 	numIterations=0
+
+	print(correctLabels)
 	while (correctLabels!=plaLabels):
 		incorrect=mismatch(correctLabels,plaLabels)
 		learningIndex=random.choice(incorrect)
@@ -51,22 +54,34 @@ for i in range(runs):
 		for j in range(N):
 			plaLabels[j]=perceptron(plaweights,np.hstack((1,points[j])))
 		numIterations+=1
-	avgIterations+=numIterations
-	accuracy=0.0
+
+	plaaccuracy=0.0
+	testpoints=[]
 	for j in range(1000):
 		testPoint=np.array(([1,point(),point()]))
+		testpoints.append(testPoint[1:])
 		if(perceptron(plaweights,testPoint)==perceptron(line,testPoint)):
-			accuracy+=1
+			plaaccuracy+=1
 
-	accuracy/=1000
-	avgAccuracy+=accuracy
+	plaaccuracy/=1000
+	avgplaAccuracy+=plaaccuracy
+	clf=svm.SVC()
+	clf.fit(points,correctLabels)
+	svmprediction=clf.predict(testpoints)
+	svmaccuracy=0.0
+	for j in range(1000):
+		if(svmprediction[j]==perceptron(line,np.hstack((1,testpoints[j])))):
+			svmaccuracy+=1
+
+	svmaccuracy/=1000
+	avgsvmAccurary+=svmaccuracy
 	print(i)
 
 
-avgIterations/=1000
-avgAccuracy/=1000
-#print(avgIterations)
-print(1-avgAccuracy)
+avgplaAccuracy/=runs
+avgsvmAccurary/=runs
+print(1-avgplaAccuracy)
+print(1-avgsvmAccuracy)
 
 
 
