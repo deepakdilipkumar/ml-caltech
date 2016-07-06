@@ -37,27 +37,25 @@ for i in range(runs):
 	points=[]
 	correctLabels=[]
 	plaLabels=[]
-	weights=np.array([0,0,0])
+	plaweights=np.array([0,0,0])
 	for j in range(N):
-		newpoint=np.array(([1,point(),point()]))
-		correctLabels.append( perceptron(line,newpoint)) 
-		plaLabels.append(perceptron(weights,newpoint))
+		newpoint=np.array(([point(),point()]))
+		correctLabels.append( perceptron(line,np.hstack((1,newpoint)))) 
+		plaLabels.append(perceptron(plaweights,np.hstack((1,newpoint))))
 		points.append(newpoint)
-
 	numIterations=0
 	while (correctLabels!=plaLabels):
 		incorrect=mismatch(correctLabels,plaLabels)
 		learningIndex=random.choice(incorrect)
-		weights=learning(weights,points[learningIndex],correctLabels[learningIndex])
+		plaweights=learning(plaweights,np.hstack((1,points[learningIndex])),correctLabels[learningIndex])
 		for j in range(N):
-			plaLabels[j]=perceptron(weights,points[j])
+			plaLabels[j]=perceptron(plaweights,np.hstack((1,points[j])))
 		numIterations+=1
-
 	avgIterations+=numIterations
 	accuracy=0.0
 	for j in range(1000):
 		testPoint=np.array(([1,point(),point()]))
-		if(perceptron(weights,testPoint)==perceptron(line,testPoint)):
+		if(perceptron(plaweights,testPoint)==perceptron(line,testPoint)):
 			accuracy+=1
 
 	accuracy/=1000
