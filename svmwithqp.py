@@ -26,17 +26,18 @@ def minimumindex(array):
 	mini = 10000
 	index = 0
 	for i in range(len(array)):
-		if(array[i]<mini):
+		if(abs(array[i])<mini):
 			mini=array[i]
 			index=i
 
 	return(index)
 
-N=10
+N=100
 runs=1000
 avgplaAccuracy=0.0
 avgsvmAccuracy=0.0
 svmbetter=0.0
+avgnumsv=0
 
 for i in range(runs):
 	p1 = np.array([point(),point()])
@@ -70,7 +71,7 @@ for i in range(runs):
 			plaLabels[j]=perceptron(plaweights,np.hstack((1,points[j])))
 	
 	#print(correctLabels)
-	q = matrix(np.zeros(N)+1)
+	q = matrix(np.zeros(N)-1)
 	G = matrix(-np.eye(N))
 	h = matrix(np.zeros(N))
 	A = matrix(correctLabels,(1,N))
@@ -87,7 +88,13 @@ for i in range(runs):
 
 	alpha=np.array(sol['x'])
 	#print(alpha)
+	numsv=N
+	for j in range(len(alpha)):
+		if abs(alpha[j])<1e-4:
+			alpha[j]=0
+			numsv-=1
 
+	avgnumsv+=numsv
 	svmweights=np.array(np.zeros(2))
 	for j in range(N):
 		svmweights+=correctLabels[j]*alpha[j]*points[j]
@@ -121,8 +128,8 @@ for i in range(runs):
 svmbetter/=runs
 avgplaAccuracy/=runs
 avgsvmAccuracy/=runs
+avgnumsv/=runs
 print(1-avgplaAccuracy)
 print(1-avgsvmAccuracy)
-print(1-svmbetter)
-
-
+print(svmbetter)
+print(avgnumsv)
