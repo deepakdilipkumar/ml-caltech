@@ -70,9 +70,21 @@ for i in range(runs):
 	plaaccuracy/=1000
 	avgplaAccuracy+=plaaccuracy
 	
+	q = matrix(np.zeros(N)+1)
+	G = matrix(-np.eye(N))
+	h = matrix(np.zeros(1))
+	A = matrix(np.array(correctLabels).T)
+	b = matrix(np.zeros(1))
 
+	P = np.zeros((N,N))
 
+	for j in range(N):
+		for k in range(N):
+			P[j,k]=correctLabels[j]*correctLabels[k]*points[j].dot(points[k])
 
+	sol=solvers.qp(Q, p, G, h, A, b)
+
+	print(sol)
 	svmaccuracy=0.0
 	for j in range(1000):
 		if(svmprediction[j]==perceptron(line,np.hstack((1,testpoints[j])))):
@@ -80,7 +92,7 @@ for i in range(runs):
 
 	svmaccuracy/=1000
 	avgsvmAccuracy+=svmaccuracy
-	print(i)
+	#print(i)
 
 
 avgplaAccuracy/=runs
