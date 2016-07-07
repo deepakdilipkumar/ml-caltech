@@ -1,6 +1,6 @@
 import numpy as np 
 import random
-import cvxopt import matrix,solvers
+from cvxopt import matrix,solvers
 
 def perceptron(weights,input):
 	return np.sign(weights.dot(input))
@@ -24,7 +24,7 @@ def mismatch(list1,list2):
 
 
 N=10
-runs=1000
+runs=100
 avgplaAccuracy=0.0
 avgsvmAccuracy=0.0
 
@@ -70,10 +70,11 @@ for i in range(runs):
 	plaaccuracy/=1000
 	avgplaAccuracy+=plaaccuracy
 	
+	#print(correctLabels)
 	q = matrix(np.zeros(N)+1)
 	G = matrix(-np.eye(N))
-	h = matrix(np.zeros(1))
-	A = matrix(np.array(correctLabels).T)
+	h = matrix(np.zeros(N))
+	A = matrix(correctLabels,(1,N))
 	b = matrix(np.zeros(1))
 
 	P = np.zeros((N,N))
@@ -82,9 +83,11 @@ for i in range(runs):
 		for k in range(N):
 			P[j,k]=correctLabels[j]*correctLabels[k]*points[j].dot(points[k])
 
-	sol=solvers.qp(Q, p, G, h, A, b)
+	P = matrix(P)
+	sol=solvers.qp(P, q, G, h, A, b)
 
-	print(sol)
+	print(sol['x'])
+	svmprediction=np.zeros(1000)
 	svmaccuracy=0.0
 	for j in range(1000):
 		if(svmprediction[j]==perceptron(line,np.hstack((1,testpoints[j])))):
