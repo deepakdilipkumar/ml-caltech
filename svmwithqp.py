@@ -22,11 +22,21 @@ def mismatch(list1,list2):
 
 	return incorrect
 
+def minimumindex(array):
+	mini = 10000
+	index = 0
+	for i in range(len(array)):
+		if(array[i]<mini):
+			mini=array[i]
+			index=i
+
+	return(index)
 
 N=10
-runs=100
+runs=1000
 avgplaAccuracy=0.0
 avgsvmAccuracy=0.0
+svmbetter=0.0
 
 for i in range(runs):
 	p1 = np.array([point(),point()])
@@ -58,17 +68,6 @@ for i in range(runs):
 		plaweights=learning(plaweights,np.hstack((1,points[learningIndex])),correctLabels[learningIndex])
 		for j in range(N):
 			plaLabels[j]=perceptron(plaweights,np.hstack((1,points[j])))
-
-	plaaccuracy=0.0
-	testpoints=[]
-	for j in range(1000):
-		testPoint=np.array(([1,point(),point()]))
-		testpoints.append(testPoint[1:])
-		if(perceptron(plaweights,testPoint)==perceptron(line,testPoint)):
-			plaaccuracy+=1
-
-	plaaccuracy/=1000
-	avgplaAccuracy+=plaaccuracy
 	
 	#print(correctLabels)
 	q = matrix(np.zeros(N)+1)
@@ -86,22 +85,44 @@ for i in range(runs):
 	P = matrix(P)
 	sol=solvers.qp(P, q, G, h, A, b)
 
-	print(sol['x'])
-	svmprediction=np.zeros(1000)
+	alpha=np.array(sol['x'])
+	#print(alpha)
+
+	svmweights=np.array(np.zeros(2))
+	for j in range(N):
+		svmweights+=correctLabels[j]*alpha[j]*points[j]
+
+	#print(svmweights)
+	svindex = minimumindex(alpha)
+	b = (1/correctLabels[svindex])-svmweights.dot(points[svindex])
+	#print(b)
+
+	plaaccuracy=0.0
 	svmaccuracy=0.0
+
+
 	for j in range(1000):
-		if(svmprediction[j]==perceptron(line,np.hstack((1,testpoints[j])))):
+		testpoint=np.array(([1,point(),point()]))
+		correctlabel = perceptron(line,testpoint)
+		if(perceptron(plaweights,testpoint)==correctlabel):
+			plaaccuracy+=1
+
+		if(svmpred(svmweights,b,testpoint[1:])==correctlabel):
 			svmaccuracy+=1
 
+	plaaccuracy/=1000
+	avgplaAccuracy+=plaaccuracy
 	svmaccuracy/=1000
 	avgsvmAccuracy+=svmaccuracy
-	#print(i)
+	if(svmaccuracy>plaaccuracy):
+		svmbetter+=1
+	print(i)
 
-
+svmbetter/=runs
 avgplaAccuracy/=runs
 avgsvmAccuracy/=runs
 print(1-avgplaAccuracy)
 print(1-avgsvmAccuracy)
-
+print(1-svmbetter)
 
 
