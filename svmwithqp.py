@@ -32,7 +32,7 @@ def maximumindex(array):
 
 	return(index)
 
-N=10
+N=100
 runs=1000
 avgplaAccuracy=0.0
 avgsvmAccuracy=0.0
@@ -60,9 +60,7 @@ for i in range(runs):
 			correctLabels.append( perceptron(line,np.hstack((1,newpoint)))) 
 			plaLabels.append(perceptron(plaweights,np.hstack((1,newpoint))))
 			points.append(newpoint)
-		#print(len(np.unique(correctLabels)))
 
-	#print(correctLabels)
 	while (correctLabels!=plaLabels):
 		incorrect=mismatch(correctLabels,plaLabels)
 		learningIndex=random.choice(incorrect)
@@ -70,7 +68,6 @@ for i in range(runs):
 		for j in range(N):
 			plaLabels[j]=perceptron(plaweights,np.hstack((1,points[j])))
 	
-	#print(correctLabels)
 	q = matrix(np.zeros(N)-1)
 	G = matrix(-np.eye(N))
 	h = matrix(np.zeros(N))
@@ -87,7 +84,6 @@ for i in range(runs):
 	sol=solvers.qp(P, q, G, h, A, b)
 
 	alpha=np.array(sol['x'])
-	#print(alpha)
 	numsv=N
 	for j in range(len(alpha)):
 		if abs(alpha[j])<1e-4:
@@ -99,20 +95,11 @@ for i in range(runs):
 	for j in range(N):
 		svmweights+=correctLabels[j]*alpha[j]*points[j]
 
-	#print(svmweights)
 	svindex = maximumindex(alpha)
-	#print(alpha[svindex])
 	b = (1/correctLabels[svindex])-svmweights.dot(points[svindex])
-	#print(b)
 
-	#eq = []
-	#for j in range(N):
-	#	eq.append(alpha[j]*(correctLabels[j]*(svmweights.dot(points[j])+b)-1))
-
-	#print(eq)
 	plaaccuracy=0.0
 	svmaccuracy=0.0
-
 
 	for j in range(1000):
 		testpoint=np.array(([1,point(),point()]))
