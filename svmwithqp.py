@@ -22,22 +22,22 @@ def mismatch(list1,list2):
 
 	return incorrect
 
-def minimumindex(array):
-	mini = 10000
+def maximumindex(array):
+	maximum = -10000
 	index = 0
 	for i in range(len(array)):
-		if(abs(array[i])<mini):
-			mini=array[i]
+		if(abs(array[i])>maximum):
+			maximum=array[i]
 			index=i
 
 	return(index)
 
-N=100
+N=10
 runs=1000
 avgplaAccuracy=0.0
 avgsvmAccuracy=0.0
 svmbetter=0.0
-avgnumsv=0
+avgnumsv=0.0
 
 for i in range(runs):
 	p1 = np.array([point(),point()])
@@ -100,10 +100,16 @@ for i in range(runs):
 		svmweights+=correctLabels[j]*alpha[j]*points[j]
 
 	#print(svmweights)
-	svindex = minimumindex(alpha)
+	svindex = maximumindex(alpha)
+	#print(alpha[svindex])
 	b = (1/correctLabels[svindex])-svmweights.dot(points[svindex])
 	#print(b)
 
+	#eq = []
+	#for j in range(N):
+	#	eq.append(alpha[j]*(correctLabels[j]*(svmweights.dot(points[j])+b)-1))
+
+	#print(eq)
 	plaaccuracy=0.0
 	svmaccuracy=0.0
 
