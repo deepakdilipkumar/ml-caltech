@@ -14,6 +14,7 @@ learning=0.1
 maxnodes=max(layersizearray)
 w = [ [ [0]* (numlayers+1) ] * (maxnodes+1) ] * (maxnodes+1)
 x = [ [0]* (numlayers+1)] * (maxnodes+1)
+#x[:][0]=inputfeatures
 delta = [ [0]* (numlayers+1)] * (maxnodes+1)
 
 for l in range(numlayers)[1:]:
@@ -21,3 +22,10 @@ for l in range(numlayers)[1:]:
 		for j in range(layersize(l)):
 			w[i][j][l] = rnd.uniform(-0.2,0.2)
 			
+for l in range(numlayers)[1:]:
+	for j in range(layersize(l)):
+		signal=0
+		for i in range(layersize(l-1)):
+			signal+=x[i][l]*w[i][j][l]
+
+		x[j][l]=nl(signal)
