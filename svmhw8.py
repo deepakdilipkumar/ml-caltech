@@ -35,6 +35,17 @@ class supportvectormachine:
  	def model(self):
  		print "Kernel: ", self.kernel, "\nPenalty Parameter: ", self.C, "\nDegree of Poly Kernel: ", self.degree, " \nKernel coefficient: ", self.gamma, "\nIndependant term in kernel: ", self.coeff
 
+ 	def printtrain(self):
+ 		print(self.traindata)
+
+ 	def onevsall(self,digit):
+ 		for i in range(np.shape(self.traindata)[0]):
+ 			if self.traindata[i][0]==digit:
+ 				self.traindata[i][0]=1
+ 			else:
+ 				self.traindata[i][0]=-1
+
+
 
 
 traindata=np.genfromtxt("hw8train.txt")
@@ -43,5 +54,7 @@ testdata=np.genfromtxt("hw8test.txt")
 svm1 = supportvectormachine('rbf', 1, 1, 10, 1)
 svm1.trainset(traindata)
 svm1.testset(testdata)
+svm1.onevsall(6)
 svm1.model()
+svm1.printtrain()
 
