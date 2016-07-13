@@ -1,4 +1,4 @@
-from sklearn import svm
+from sklearn.svm import SVC	
 import numpy as np 
 
 class supportvectormachine:
@@ -10,21 +10,27 @@ class supportvectormachine:
  		self.coeff = coeff
  		self.degree = degree
  		self.gamma = gamma
+ 		self.classifier= SVC(self.C, self.kernel,self.degree, self.gamma, self.coeff)
 
  	def updatekernel(self,kernel):
  		self.kernel = kernel
+ 		self.classifier= SVC(self.C, self.kernel,self.degree, self.gamma, self.coeff)
 
  	def updateC(self,C):
  		self.C = C
+ 		self.classifier= SVC(self.C, self.kernel,self.degree, self.gamma, self.coeff)
 
  	def updatecoeff(self,coeff):
  		self.coeff = coeff
+ 		self.classifier= SVC(self.C, self.kernel,self.degree, self.gamma, self.coeff)
 
  	def updatedegree(self,degree):
  		self.degree = degree
+ 		self.classifier= SVC(self.C, self.kernel,self.degree, self.gamma, self.coeff)
 
  	def updategamma(self,gamma):
  		self.gamma = gamma
+ 		self.classifier= SVC(self.C, self.kernel,self.degree, self.gamma, self.coeff)
 
  	def trainset(self,traindata):
  		self.traindata = traindata
@@ -53,6 +59,9 @@ class supportvectormachine:
  				self.traindata[i][0]=-1 
  			else:
  				self.traindata[i][0]=0	
+
+ 	def train(self):
+ 		self.classifier.fit(self.traindata[:][1:],self.traindata[:][0])
 
 
 
