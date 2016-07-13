@@ -45,6 +45,14 @@ class supportvectormachine:
  			else:
  				self.traindata[i][0]=-1
 
+ 	def onevsone(self,digit1,digit2):
+ 		for i in range(np.shape(self.traindata)[0]):
+ 			if self.traindata[i][0]==digit1:
+ 				self.traindata[i][0]=1
+ 			elif self.traindata[i][0]==digit2:
+ 				self.traindata[i][0]=-1 
+ 			else:
+ 				self.traindata[i][0]=0	
 
 
 
@@ -54,7 +62,7 @@ testdata=np.genfromtxt("hw8test.txt")
 svm1 = supportvectormachine('rbf', 1, 1, 10, 1)
 svm1.trainset(traindata)
 svm1.testset(testdata)
-svm1.onevsall(6)
+svm1.onevsone(6,5)
 svm1.model()
 svm1.printtrain()
 
