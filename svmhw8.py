@@ -64,14 +64,24 @@ class supportvectormachine:
  		self.classifier.fit(self.traindata[:,1:],self.traindata[:,0])
 
  	def ein(self):
- 		self.prediction = self.classifier.predict(self.traindata[:,1:])
- 		total = len(self.prediction)
+ 		self.inprediction = self.classifier.predict(self.traindata[:,1:])
+ 		total = len(self.inprediction)
  		count=0.0
  		for i in range(total):
- 			if(self.prediction[i]!=self.traindata[i,0]):
+ 			if(self.inprediction[i]!=self.traindata[i,0]):
  				count+=1
 
  		return count/total
+
+ 	def eout(self):
+		self.outprediction = self.classifier.predict(self.testdata[:,1:])
+		total = len(self.outprediction)
+		count=0.0
+		for i in range(total):
+			if(self.outprediction[i]!=self.testdata[i,0]):
+				count+=1
+
+		return count/total
 
 
 
@@ -82,9 +92,9 @@ testdata=np.genfromtxt("hw8test.txt")
 svm1 = supportvectormachine('rbf', 1, 1, 10, 1)
 svm1.trainset(traindata)
 svm1.testset(testdata)
-svm1.onevsone(6,5)
 svm1.model()
 #svm1.printtrain()
 svm1.train()
 print(svm1.ein())
+print(svm1.eout())
 
