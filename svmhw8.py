@@ -61,7 +61,7 @@ class supportvectormachine:
  				self.traindata[i][0]=0	
 
  	def train(self):
- 		self.classifier.fit(self.traindata[:][1:],self.traindata[:][0])
+ 		self.classifier.fit(self.traindata[:,1:],self.traindata[:,0])
 
 
 
@@ -73,5 +73,6 @@ svm1.trainset(traindata)
 svm1.testset(testdata)
 svm1.onevsone(6,5)
 svm1.model()
-svm1.printtrain()
+#svm1.printtrain()
+#svm1.train()
 
