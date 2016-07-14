@@ -63,6 +63,17 @@ class supportvectormachine:
  	def train(self):
  		self.classifier.fit(self.traindata[:,1:],self.traindata[:,0])
 
+ 	def ein(self):
+ 		self.prediction = self.classifier.predict(self.traindata[:,1:])
+ 		total = len(self.prediction)
+ 		count=0.0
+ 		for i in range(total):
+ 			if(self.prediction[i]!=self.traindata[i,0]):
+ 				count+=1
+
+ 		return count/total
+
+
 
 
 traindata=np.genfromtxt("hw8train.txt")
@@ -74,5 +85,6 @@ svm1.testset(testdata)
 svm1.onevsone(6,5)
 svm1.model()
 #svm1.printtrain()
-#svm1.train()
+svm1.train()
+print(svm1.ein())
 
