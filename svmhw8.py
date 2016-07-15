@@ -100,9 +100,12 @@ class supportvectormachine:
 		return self.count/self.total
 		#return self.classifier.score(self.testdata[:,1:],self.testdata[:,0])
 
+	def nsv(self):
+		return self.classifier.n_support_
 
 
-for i in [0,2,4,6,8]:
+
+for i in range(10):
 	training=np.genfromtxt("hw8train.txt")
 	testing=np.genfromtxt("hw8test.txt")
 	svm1 = supportvectormachine('poly', C=0.01, degree=2)
@@ -112,7 +115,7 @@ for i in [0,2,4,6,8]:
 	#svm1.model()
 	#svm1.printtrain()
 	svm1.train()
-	print svm1.ein(), " ", svm1.eout()
+	print svm1.ein(), " ", svm1.eout(), " ", svm1.nsv()
 
 
 
