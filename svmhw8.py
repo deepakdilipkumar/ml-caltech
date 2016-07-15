@@ -105,6 +105,30 @@ class supportvectormachine:
 
 
 
+for i in range(4):
+	training=np.genfromtxt("hw8train.txt")
+	testing=np.genfromtxt("hw8test.txt")
+	svm1 = supportvectormachine('poly', C=pow(10,-i), degree=5)
+	svm1.trainset(training)
+	svm1.testset(testing)
+	svm1.onevsone(1,5)
+	#svm1.model()
+	#svm1.printtrain()
+	svm1.train()
+	print svm1.ein(), " ", svm1.eout(), " ", sum(svm1.nsv()), " ", pow(10,-i)
+
+for i in range(4):
+	training=np.genfromtxt("hw8train.txt")
+	testing=np.genfromtxt("hw8test.txt")
+	svm1 = supportvectormachine('poly', C=pow(10,-i), degree=2)
+	svm1.trainset(training)
+	svm1.testset(testing)
+	svm1.onevsone(1,5)
+	#svm1.model()
+	#svm1.printtrain()
+	svm1.train()
+	print svm1.ein(), " ", svm1.eout(), " ", sum(svm1.nsv()), " ", pow(10,-i)
+
 for i in range(10):
 	training=np.genfromtxt("hw8train.txt")
 	testing=np.genfromtxt("hw8test.txt")
