@@ -102,26 +102,17 @@ class supportvectormachine:
 
 
 
-traindata=np.genfromtxt("hw8train.txt")
-testdata=np.genfromtxt("hw8test.txt")
-
-svm1 = supportvectormachine('poly', C=0.01, degree=2)
-svm1.trainset(traindata)
-svm1.testset(testdata)
-svm1.onevsall(6)
-svm1.model()
-#svm1.printtrain()
-svm1.train()
-print svm1.ein(), " ", svm1.eout()
-
-#for i in [0,2,4]:
-#	print(i)
-#	svm2 = supportvectormachine('poly', C=0.01, degree=2)
-#	svm2.trainset(traindata)
-#	svm2.testset(testdata)
-#	svm2.onevsall(0)
-#	svm2.model()
+for i in [0,2,4,6,8]:
+	training=np.genfromtxt("hw8train.txt")
+	testing=np.genfromtxt("hw8test.txt")
+	svm1 = supportvectormachine('poly', C=0.01, degree=2)
+	svm1.trainset(training)
+	svm1.testset(testing)
+	svm1.onevsall(i)
+	#svm1.model()
 	#svm1.printtrain()
-#	svm2.train()
-#	print svm2.ein(), " ", svm2.eout()
+	svm1.train()
+	print svm1.ein(), " ", svm1.eout()
+
+
 
