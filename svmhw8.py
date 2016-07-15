@@ -4,7 +4,7 @@ import numpy as np
 class supportvectormachine:
  	'End to end svm class'
 
- 	def __init__(self, kernel='rbf', C=1, coeff=0, degree=3, gamma =0.5 ):
+ 	def __init__(self, kernel='rbf', C=1, coeff=0, degree=3, gamma =1 ):
  		self.kernel = kernel
  		self.C = C
  		self.coeff = coeff
@@ -104,6 +104,18 @@ class supportvectormachine:
 		return self.classifier.n_support_
 
 
+
+for i in [-2,0,2,4,6]:
+	training=np.genfromtxt("hw8train.txt")
+	testing=np.genfromtxt("hw8test.txt")
+	svm1 = supportvectormachine('rbf', C=pow(10,i), gamma=1)
+	svm1.trainset(training)
+	svm1.testset(testing)
+	svm1.onevsone(1,5)
+	#svm1.model()
+	#svm1.printtrain()
+	svm1.train()
+	print svm1.ein(), " ", svm1.eout(), " ", sum(svm1.nsv()), " ", pow(10,i)
 
 for i in range(4):
 	training=np.genfromtxt("hw8train.txt")
