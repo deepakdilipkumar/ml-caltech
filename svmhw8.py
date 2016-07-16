@@ -1,5 +1,6 @@
 from sklearn.svm import SVC	
 import numpy as np 
+import random as rnd
 
 class supportvectormachine:
  	'End to end svm class'
@@ -111,6 +112,17 @@ class supportvectormachine:
 	def nsv(self):
 		return self.classifier.n_support_
 
+	def partition(self,n): 
+		lst = range(len(self.traindata))
+		division = len(self.traindata) / float(n)
+		rnd.shuffle(lst)
+		return [ lst[int(round(division * i)): int(round(division * (i + 1)))] for i in xrange(n) ]
+
+# Question 7/8
+
+runs=100
+partitions=10
+
 
 
 # Question 9/10
@@ -131,7 +143,7 @@ print("\n \n")
 
 # Question 5/6
 
-for i in range(4):
+for i in range(5):
 	training=np.genfromtxt("hw8train.txt")
 	testing=np.genfromtxt("hw8test.txt")
 	svm1 = supportvectormachine('poly', C=pow(10,-i), degree=5)
@@ -143,7 +155,9 @@ for i in range(4):
 	svm1.train()
 	print svm1.ein(), " ", svm1.eout(), " ", sum(svm1.nsv()), " ", pow(10,-i)
 
-for i in range(4):
+print("\n")
+
+for i in range(5):
 	training=np.genfromtxt("hw8train.txt")
 	testing=np.genfromtxt("hw8test.txt")
 	svm1 = supportvectormachine('poly', C=pow(10,-i), degree=2)
