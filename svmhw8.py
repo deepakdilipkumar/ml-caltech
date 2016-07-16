@@ -58,7 +58,7 @@ class supportvectormachine:
  				self.testdata[i,0]=-1
 
  	def onevsone(self,digit1,digit2):
- 		irrelevant=np.array([])
+ 		irrelevant=[]
  		for i in range(np.shape(self.traindata)[0]):
  			if self.traindata[i,0]==digit1:
  				self.traindata[i,0]=1
@@ -66,11 +66,11 @@ class supportvectormachine:
  				self.traindata[i,0]=-1 
  			else:
  				self.traindata[i,0]=0	
- 				irrelevant=np.hstack(irrelevant,i)
+ 				irrelevant.append(i)
 
  		self.traindata=np.delete(self.traindata,irrelevant,axis=0)
 
- 		irrelevant=np.array([])
+ 		irrelevant=[]
 
  		for i in range(np.shape(self.testdata)[0]):
  			if self.testdata[i,0]==digit1:
@@ -79,9 +79,9 @@ class supportvectormachine:
  				self.testdata[i,0]=-1 
  			else:
  				self.testdata[i,0]=0	
- 				irrelevant=np.hstack(irrelevant,i)
+ 				irrelevant.append(i)
 
- 		 self.testdata=np.delete(self.testdata,irrelevant,axis=0)
+ 		self.testdata=np.delete(self.testdata,irrelevant,axis=0)
 
  	def train(self):
  		self.classifier.fit(self.traindata[:,1:],self.traindata[:,0])
@@ -127,6 +127,7 @@ for i in [-2,0,2,4,6]:
 	svm1.train()
 	print svm1.ein(), " ", svm1.eout(), " ", sum(svm1.nsv()), " ", pow(10,i)
 
+print("\n \n")
 
 # Question 5/6
 
@@ -154,6 +155,7 @@ for i in range(4):
 	svm1.train()
 	print svm1.ein(), " ", svm1.eout(), " ", sum(svm1.nsv()), " ", pow(10,-i)
 
+print("\n \n")
 
 # Question 2/3/4
 
