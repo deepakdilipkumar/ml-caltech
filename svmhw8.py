@@ -1,6 +1,7 @@
 from sklearn.svm import SVC	
 import numpy as np 
 import random as rnd
+from collections import Counter
 
 class supportvectormachine:
  	'End to end svm class'
@@ -123,6 +124,30 @@ class supportvectormachine:
 runs=100
 partitions=10
 
+chosenC = []
+for i in range(runs):
+	avgecv=[]
+	for j in range(5):
+		training=np.genfromtxt("hw8train.txt")
+		testing=np.genfromtxt("hw8test.txt")
+		svm1 = supportvectormachine('rbf', C=pow(10,-j), gamma=1)
+		svm1.trainset(training)
+		svm1.testset(testing)
+		svm1.onevsone(1,5)
+		partitionindices=svm1.partition(partitions)
+		ecv=0.0
+		for k in range(partitions):
+			svm1.trainset=training[]
+			svm1.testset=training[partitionindices[k],:]
+			svm1.train()
+			ecv+=svm1.eout()
+
+		avgecv.append(ecv/partitions)
+
+	chosenC.append(pow(10,-(avgecv.index(min(avgecv)))))
+
+mode = Counter(chosenC).most_common(1)
+print(mode)
 
 
 # Question 9/10
