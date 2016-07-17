@@ -123,8 +123,8 @@ class supportvectormachine:
 
 runs=100
 partitions=10
-
 chosenC = []
+
 for i in range(runs):
 	avgecv=[]
 	for j in range(5):
@@ -137,7 +137,14 @@ for i in range(runs):
 		partitionindices=svm1.partition(partitions)
 		ecv=0.0
 		for k in range(partitions):
-			svm1.trainset=training[]
+			relindices=np.array([])
+			trainparts=range(partitions)
+			trainparts.pop(k)
+			for l in trainparts:
+				relindices=np.concatenate([relindices,partitionindices[l]])
+				#relindices=np.hstack([relindices,partitionindices[l]])
+
+			svm1.trainset=training[relindices.astype(int),:]
 			svm1.testset=training[partitionindices[k],:]
 			svm1.train()
 			ecv+=svm1.eout()
@@ -145,6 +152,7 @@ for i in range(runs):
 		avgecv.append(ecv/partitions)
 
 	chosenC.append(pow(10,-(avgecv.index(min(avgecv)))))
+	print(i)
 
 mode = Counter(chosenC).most_common(1)
 print(mode)
