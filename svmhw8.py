@@ -128,15 +128,17 @@ chosenC = []
 for i in range(runs):
 	avgecv=[]
 	for j in range(5):
+		svm1 = supportvectormachine('rbf', C=pow(10,-j), gamma=1)
 		training=np.genfromtxt("hw8train.txt")
 		testing=np.genfromtxt("hw8test.txt")
-		svm1 = supportvectormachine('rbf', C=pow(10,-j), gamma=1)
 		svm1.trainset(training)
 		svm1.testset(testing)
-		svm1.onevsone(1,5)
+		#svm1.onevsone(1,5)
 		partitionindices=svm1.partition(partitions)
 		ecv=0.0
 		for k in range(partitions):
+			training=np.genfromtxt("hw8train.txt")
+			testing=np.genfromtxt("hw8test.txt")
 			relindices=np.array([])
 			trainparts=range(partitions)
 			trainparts.pop(k)
@@ -144,8 +146,9 @@ for i in range(runs):
 				relindices=np.concatenate([relindices,partitionindices[l]])
 				#relindices=np.hstack([relindices,partitionindices[l]])
 
-			svm1.trainset=training[relindices.astype(int),:]
-			svm1.testset=training[partitionindices[k],:]
+			svm1.trainset(training[relindices.astype(int),:])
+			svm1.testset(training[partitionindices[k],:])
+			svm1.onevsone(1,5)
 			svm1.train()
 			ecv+=svm1.eout()
 
@@ -154,7 +157,7 @@ for i in range(runs):
 	chosenC.append(pow(10,-(avgecv.index(min(avgecv)))))
 	print(i)
 
-mode = Counter(chosenC).most_common(1)
+mode = Counter(chosenC).most_common(5)
 print(mode)
 
 
