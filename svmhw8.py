@@ -124,6 +124,7 @@ class supportvectormachine:
 runs=100
 partitions=10
 chosenC = []
+allecv=[ [0.0]*100 ]*5
 
 for i in range(runs):
 	avgecv=[]
@@ -153,12 +154,14 @@ for i in range(runs):
 			ecv+=svm1.eout()
 
 		avgecv.append(ecv/partitions)
+		allecv[j][i]=ecv/partitions
 
 	chosenC.append(pow(10,-(avgecv.index(min(avgecv)))))
 	print(i)
 
 mode = Counter(chosenC).most_common(5)
 print(mode)
+print( sum(allecv[0,:])/runs , sum(allecv[1,:])/runs , sum(allecv[2,:])/runs , sum(allecv[3,:])/runs , sum(allecv[4,:])/runs  )
 
 
 # Question 9/10
