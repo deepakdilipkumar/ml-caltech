@@ -170,7 +170,7 @@ print "Ecv values for decreasing C's:\n" , sum(allecv[0,:])/runs , sum(allecv[1,
 
 # Question 9/10
 
-print("Question 9/10\n")
+print("\nQuestion 9/10\n")
 
 for i in [-2,0,2,4,6]:
 	training=np.genfromtxt("hw8train.txt")
@@ -182,10 +182,12 @@ for i in [-2,0,2,4,6]:
 	svm1.train()
 	print "C:" , pow(10,i), ", Ein:", svm1.ein(), ", Eout:", svm1.eout(), ",Support Vectors:", sum(svm1.nsv())
 
-print("\n \n")
+print("\n")
 
 # Question 5/6
 
+print("Question 5/6")
+print("Polynomial Kernel with degree 5\n")
 
 for i in range(5):
 	training=np.genfromtxt("hw8train.txt")
@@ -195,9 +197,9 @@ for i in range(5):
 	svm1.testset(testing)
 	svm1.onevsone(1,5)
 	svm1.train()
-	print svm1.ein(), " ", svm1.eout(), " ", sum(svm1.nsv()), " ", pow(10,-i)
+	print "C:" , pow(10,-i), ", Ein:", svm1.ein(), ", Eout:", svm1.eout(), ",Support Vectors:", sum(svm1.nsv())
 
-print("\n")
+print("\nPolynomial Kernel with degree 2\n")
 
 for i in range(5):
 	training=np.genfromtxt("hw8train.txt")
@@ -207,11 +209,13 @@ for i in range(5):
 	svm1.testset(testing)
 	svm1.onevsone(1,5)
 	svm1.train()
-	print svm1.ein(), " ", svm1.eout(), " ", sum(svm1.nsv()), " ", pow(10,-i)
+	print "C:" , pow(10,-i), ", Ein:", svm1.ein(), ", Eout:", svm1.eout(), ",Support Vectors:", sum(svm1.nsv())
 
-print("\n \n")
+print("\n")
 
 # Question 2/3/4
+
+print("Question 2/3/4\n")
 
 for i in range(10):
 	training=np.genfromtxt("hw8train.txt")
@@ -221,7 +225,7 @@ for i in range(10):
 	svm1.testset(testing)
 	svm1.onevsall(i)
 	svm1.train()
-	print svm1.ein(), " ", svm1.eout(), " ", svm1.nsv()
+	print i, "vs all,", "Ein:", svm1.ein(), ", Eout:", svm1.eout(), ",Support Vectors:", sum(svm1.nsv())
 
 
 
