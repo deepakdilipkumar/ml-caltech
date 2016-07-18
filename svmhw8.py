@@ -119,14 +119,14 @@ class supportvectormachine:
 		rnd.shuffle(lst)
 		return [ lst[int(round(division * i)): int(round(division * (i + 1)))] for i in xrange(n) ]
 
-print("HW8 Exercises \n\n")
+print("HW8 Exercises \n")
 
 # Question 7/8
 
-print("Question 7/8")
+print("Question 7/8 \n")
 
 
-runs=100
+runs=1
 partitions=10
 chosenC = []
 allecv=np.array([ [0.0]*100 ]*5)
@@ -159,15 +159,18 @@ for i in range(runs):
 		avgecv.append(ecv/partitions)
 		allecv[j][i]=ecv/partitions
 
-	chosenC.append(pow(10,-(avgecv.index(min(avgecv)))))
-	print "Run number: ", i, "\n"
+	chosenC.append(pow(10,-avgecv.index(min(avgecv))))
+	print "Run number:", i, "\n"
 
 mode = Counter(chosenC).most_common(5)
-print "Most common C: ", mode, "\n "
-print( sum(allecv[0,:])/runs , sum(allecv[1,:])/runs , sum(allecv[2,:])/runs , sum(allecv[3,:])/runs , sum(allecv[4,:])/runs  )
+print "Most common C:", mode[0][0],",", mode[0][1], "times"
+print "All C's :", mode
+print "Ecv values for decreasing C's:\n" , sum(allecv[0,:])/runs , sum(allecv[1,:])/runs , sum(allecv[2,:])/runs , sum(allecv[3,:])/runs , sum(allecv[4,:])/runs 
 
 
 # Question 9/10
+
+print("Question 9/10\n")
 
 for i in [-2,0,2,4,6]:
 	training=np.genfromtxt("hw8train.txt")
@@ -177,11 +180,12 @@ for i in [-2,0,2,4,6]:
 	svm1.testset(testing)
 	svm1.onevsone(1,5)
 	svm1.train()
-	print svm1.ein(), " ", svm1.eout(), " ", sum(svm1.nsv()), " ", pow(10,i)
+	print "C:" , pow(10,i), ", Ein:", svm1.ein(), ", Eout:", svm1.eout(), ",Support Vectors:", sum(svm1.nsv())
 
 print("\n \n")
 
 # Question 5/6
+
 
 for i in range(5):
 	training=np.genfromtxt("hw8train.txt")
