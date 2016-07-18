@@ -119,7 +119,12 @@ class supportvectormachine:
 		rnd.shuffle(lst)
 		return [ lst[int(round(division * i)): int(round(division * (i + 1)))] for i in xrange(n) ]
 
+print("HW8 Exercises \n\n")
+
 # Question 7/8
+
+print("Question 7/8")
+
 
 runs=100
 partitions=10
@@ -134,22 +139,20 @@ for i in range(runs):
 		testing=np.genfromtxt("hw8test.txt")
 		svm1.trainset(training)
 		svm1.testset(testing)
-		svm1.onevsone(1,5)
 		partitionindices=svm1.partition(partitions)
 		ecv=0.0
 		for k in range(partitions):
-			#training=np.genfromtxt("hw8train.txt")
-			#testing=np.genfromtxt("hw8test.txt")
+			training=np.genfromtxt("hw8train.txt")
+			testing=np.genfromtxt("hw8test.txt")
 			relindices=np.array([])
 			trainparts=range(partitions)
 			trainparts.pop(k)
 			for l in trainparts:
 				relindices=np.concatenate([relindices,partitionindices[l]])
-				#relindices=np.hstack([relindices,partitionindices[l]])
 
 			svm1.trainset(training[relindices.astype(int),:])
 			svm1.testset(training[partitionindices[k],:])
-			#svm1.onevsone(1,5)
+			svm1.onevsone(1,5)
 			svm1.train()
 			ecv+=svm1.eout()
 
@@ -157,11 +160,10 @@ for i in range(runs):
 		allecv[j][i]=ecv/partitions
 
 	chosenC.append(pow(10,-(avgecv.index(min(avgecv)))))
-	print(i)
-	print(avgecv)
+	print "Run number: ", i, "\n"
 
 mode = Counter(chosenC).most_common(5)
-print(mode)
+print "Most common C: ", mode, "\n "
 print( sum(allecv[0,:])/runs , sum(allecv[1,:])/runs , sum(allecv[2,:])/runs , sum(allecv[3,:])/runs , sum(allecv[4,:])/runs  )
 
 
@@ -174,8 +176,6 @@ for i in [-2,0,2,4,6]:
 	svm1.trainset(training)
 	svm1.testset(testing)
 	svm1.onevsone(1,5)
-	#svm1.model()
-	#svm1.printtrain()
 	svm1.train()
 	print svm1.ein(), " ", svm1.eout(), " ", sum(svm1.nsv()), " ", pow(10,i)
 
@@ -190,8 +190,6 @@ for i in range(5):
 	svm1.trainset(training)
 	svm1.testset(testing)
 	svm1.onevsone(1,5)
-	#svm1.model()
-	#svm1.printtrain()
 	svm1.train()
 	print svm1.ein(), " ", svm1.eout(), " ", sum(svm1.nsv()), " ", pow(10,-i)
 
@@ -204,8 +202,6 @@ for i in range(5):
 	svm1.trainset(training)
 	svm1.testset(testing)
 	svm1.onevsone(1,5)
-	#svm1.model()
-	#svm1.printtrain()
 	svm1.train()
 	print svm1.ein(), " ", svm1.eout(), " ", sum(svm1.nsv()), " ", pow(10,-i)
 
@@ -220,8 +216,6 @@ for i in range(10):
 	svm1.trainset(training)
 	svm1.testset(testing)
 	svm1.onevsall(i)
-	#svm1.model()
-	#svm1.printtrain()
 	svm1.train()
 	print svm1.ein(), " ", svm1.eout(), " ", svm1.nsv()
 
